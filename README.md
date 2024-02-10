@@ -16,6 +16,12 @@ This idea is based on FourWordsFindWhere, a proposal to fix some of the shortcom
 
 * Same resolution on land and on sea.
 
+## Design goals
+
+* Easy to calculate and understand.
+* Easy to pronounce and tell words apart.
+* Fine enough to be useful, coarse enough to not be unwieldy to use.
+
 ## Pronunciation
 
 * **IPA (Wikipedia standard, American English):** “Woordinates” is pronounced either /ˈwɜːrdɪnəts/ or /ˌwoʊˈɔːrdɪnəts/.
