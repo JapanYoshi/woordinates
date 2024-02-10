@@ -38,7 +38,7 @@ Get the latitude and longitude of the point you want to encode. (North and East 
 
 Remap the latitude from [-90°, 90°) to [0, 4194704).
 
-(Note: 4194704 is 2^22.)
+(Note: 4194704 is 2^22. Store the latitude in a 32-bit integer variable or larger.)
 
 Latitudes fall into these four ranges:
 
@@ -50,7 +50,9 @@ Latitudes fall into these four ranges:
 
 ### Step 3:
 
-Remap the longitude from [-180°, 180°) depending on the range the latitude falls into. (Note: 8338608 is 2^23.)
+Remap the longitude from [-180°, 180°) depending on the range the latitude falls into.
+
+(Note: 8338608 is 2^23. Store the longitude in a 32-bit integer variable or larger.)
 
 * Equatorial: [0, 8338608)
 * Mid-latitude: [0, 7340032) (7/8 density)
@@ -66,17 +68,15 @@ Stretch that range to [0, 8338608) and round off.
 * Polar: Multiply by 2, i.e. Skip every other latitude value.
 * Extreme polar: Multiply by 4, i.e. Only use every 4 latitude values.
 
+(Note: Steps 3 and 4 *could* just be skipped for easier calculations, leaving the higher latitude squares much narrower than the equatorial ones, but I would like to prevent privileging one geographic area over another.)
+
 ## Step 5
 
-Now you should have a 22-bit longitude and 23-bit latitude. Interleave the bits to create a 45-bit integer (ranging from 0 to 2^45 = 35 184 372 088 832).
+Now you should have a 22-bit longitude and 23-bit latitude. Reverse the bits, then interleave them, to create a 45-bit integer (ranging from 0 to 2^45 = 35 184 372 088 832). Reversing the bits is intended to make nearby addresses use different words.
 
 Note: Because the 4th root of 2^45 is 2435.496172, our word list is going to be at least 2436 words long. We will round that up to 2500.
 
 ## Step 6
-
-Reverse the order of the bits, so that similar addresses will get far off places.
-
-## Step 7
 
 Convert our binary integer into a base 2500 number, using the words in our word list as the digits.
 
